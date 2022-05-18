@@ -1,0 +1,3 @@
+- Add new request events (Request Archived / Request Unarchived).
+- Add filters in search view.
+- Add simplet tests.

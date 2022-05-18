@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <record id="generic_request_res_config_settings_view_form" model="ir.ui.view">
+        <field name="model">res.config.settings</field>
+        <field name="priority" eval="20"/>
+        <field name="inherit_id" ref="base.res_config_settings_view_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//div[@name='request_global_settings']" position="inside">
+                    <div class="col-xs-12 col-md-6 o_setting_box">
+                        <div class="o_setting_left_pane">
+                        </div>
+                        <div class="o_setting_right_pane">
+                            <label for="request_limit_max_text_size"/>
+                            <div>
+                                <field name="request_limit_max_text_size" />
+                            </div>
+                            <div class="text-muted">
+                                Set the maximum size of request text.
+                                When user tries to enter more symbols than allowed by this option,
+                                system will not allow him to do this.
+                            </div>
+                        </div>
+                        <div class="o_setting_left_pane">
+                        </div>
+                        <div class="o_setting_right_pane">
+                            <label for="request_limit_max_upload_file_size"
+                                   string="Maximum File Size Allowed to Upload"/>
+                            <div>
+                                <field name="request_limit_max_upload_file_size"
+                                       class="col-3"
+                                       style="width: auto;"/>
+                                <field name="request_limit_max_upload_file_size_uom"
+                                       style="width: auto; margin-left: 8px;"/>
+                            </div>
+                            <div class="text-muted">
+                                Specify here maximum size of files allowed to upload.
+                                If user will try to upload larger file, he will get message that file is too large.
+                            </div>
+                            <div class="alert alert-warning" role="alert">
+                                Ensure, that your proxy server (nginx, apache, etc) allows to upload files of selected size,
+                                because it is frequent case, when uploading of large files is blocked on nginx level.
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xs-12 col-md-6 o_setting_box">
+                        <div class="o_setting_left_pane">
+                        </div>
+                        <div class="o_setting_right_pane">
+                            <label for="request_allowed_upload_file_types"
+                                   string="File Types Allowed to Upload"/>
+                            <div>
+                                <field name="request_allowed_upload_file_types"
+                                       style="width:100%"/>
+                            </div>
+                            <div class="text-muted">
+                                 The list of allowed file types allowed to upload in request.
+                                 This field must contain coma-separated list of
+                                 <a href="https://www.iana.org/assignments/media-types/media-types.xhtml">MIME-Types</a> of files
+                                 allowed to upload.;
+                                 In order to allow to upload all images, pdf and msword documents, you can use following value:
+                                 <pre>image/*, application/pdf, application/msword</pre>.
+
+                                 Following popular Mime Types could be used:
+                                 <ul>
+                                     <li>image/*</li>
+                                     <li>image/jpeg</li>
+                                     <li>audio/*</li>
+                                     <li>video/*</li>
+                                     <li>application/pdf</li>
+                                     <li>application/msword</li>
+                                     <li>text/*</li>
+                                     <li>application/vnd.oasis.opendocument.text</li>
+                                 </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xs-12 col-md-6 o_setting_box">
+                        <div class="o_setting_left_pane">
+                        </div>
+                        <div class="o_setting_right_pane">
+                            <label for="request_wsd_public_ui_visibility"/>
+                            <div>
+                                <field name="request_wsd_public_ui_visibility"/>
+                            </div>
+                            <div class="text-muted">
+                                Choose what public (unregistered) users can see or can do.
+                                <ul>
+                                    <li><b><i>Redirect to login</i></b> - unauthorized users will be automatically redirected to login page.</li>
+                                    <li><b><i>Restricted UI</i></b> - unauthorized users will be able to pass all steps of creating a request but unable to submit request until logged in. Also, on all screens they will see small block that asks them to login or register (with links to both actions).</li>
+                                    <li><b><i>Allow to create request</i></b> - unauthorized users will be able to create requests in system without need to login or register.</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="generic_request_website_res_config_settings_view_form" model="ir.ui.view">
+        <field name="model">res.config.settings</field>
+        <field name="priority" eval="200"/>
+        <field name="inherit_id" ref="website.res_config_settings_view_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//div[@data-key='website']" position="inside">
+                <h2>Bureaucrat Website Settings</h2>
+                <div class="row mt16 o_settings_container" id="bureaucrat_website_settings">
+                    <div class="col-12 col-lg-6 o_setting_box">
+                        <div class="o_setting_right_pane">
+                            <label for="request_create_step_layout"
+                                   string="Layout for request creation steps"/>
+                            <div>
+                                <field name="request_create_step_layout"
+                                       widget="radio"/>
+                            </div>
+                            <div class="text-muted">
+                                Choose the layout style applied for request creation steps.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </xpath>
+        </field>
+    </record>
+</odoo>

@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <template id="generic_request_kanban_css_assets_backend"
+              inherit_id="web.assets_backend"
+              name="generic_request_kanban_css_assets_backend">
+        <xpath expr="." position="inside">
+            <link rel="stylesheet" type="text/scss" href='/generic_request15/static/src/scss/request_form.scss'/>
+            <link rel="stylesheet" type="text/scss" href='/generic_request15/static/src/scss/request_kanban.scss'/>
+            <link rel="stylesheet" type="text/scss" href='/generic_request15/static/src/scss/request_dashboard_kanban.scss'/>
+        </xpath>
+    </template>
+</odoo>

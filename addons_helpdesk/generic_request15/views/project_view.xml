@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!--> New Fields to project.project form <-->
+    <record id="project_project_view_form_inherited_generic_request15" model="ir.ui.view">
+        <field name="name">project.project.view.form.inherited.generic_request15</field>
+        <field name="model">project.project</field>
+        <field name="inherit_id" ref="project.edit_project"/>
+        <field name="arch" type="xml">
+            <field name="user_id" position="after">
+                <field name="odoo_version"/>
+            </field>
+        </field>
+    </record>
+
+    <!--> New Fields to project.project wizard <-->
+    <record id="project_project_view_form_simplified_inherit_generic_request15" model="ir.ui.view">
+        <field name="name">project.project.view.form.simplified.inherit.generic_request15</field>
+        <field name="model">project.project</field>
+        <field name="inherit_id" ref="project.project_project_view_form_simplified"/>
+        <field name="priority">24</field>
+        <field name="arch" type="xml">
+            <field name="name" position="after">
+                <field name="odoo_version" class="oe_inline"/>
+            </field>
+        </field>
+    </record>
+
+
+    <!-- Project Odoo Version Views -->
+    <record id="view_project_odoo_version_form" model="ir.ui.view">
+        <field name="name">project.odoo.version.form</field>
+        <field name="model">project.odoo.version</field>
+        <field name="type">form</field>
+        <field name="arch" type="xml">
+            <form string="Odoo Version">
+                <sheet>
+                    <group>
+                        <div class="alert alert-warning mb-0" role="alert" colspan="2">
+                            Odoo version must be filled in format.: 5.0, 6.1, 12.0, 15.0 ...
+                        </div>
+                        <separator/>
+                        <group>
+                            <field name="name"/>
+                            <field name="odoo_version"/>
+                        </group>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_project_odoo_version_tree" model="ir.ui.view">
+        <field name="name">project.odoo.version.tree</field>
+        <field name="model">project.odoo.version</field>
+        <field name="type">tree</field>
+        <field name="arch" type="xml">
+            <tree string="Server Type">
+                <field name="name"/>
+                <field name="odoo_version"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="action_project_odoo_version_form" model="ir.actions.act_window">
+        <field name="name">Odoo Versions</field>
+        <field name="res_model">project.odoo.version</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <menuitem id="project_menu_config_odoo_versions"
+              action="action_project_odoo_version_form"
+              parent="project.menu_project_config"/>
+
+    <!--> Project Task Views <-->
+    <record id="view_project_task_inherit_task_form2_generic_request2" model="ir.ui.view">
+        <field name="name">project.task.form.view.inherit.task_form2.generic_request2</field>
+        <field name="model">project.task</field>
+        <field name="inherit_id" ref="project.view_task_form2"/>
+        <field name="arch" type="xml">
+            <field name="user_ids" position='after'>
+                <field name="is_request_required" invisible="1"/>
+                <field name="request_id" attrs="{'required': [('is_request_required', '=', True)]}"/>
+                <field name="task_time" widget="float_time"/>
+            </field>
+            <field name="tag_ids" position='after'>
+                <label for="commit_id"/>
+                <div class="o_row">
+                    <button class="copy_case_id_class"
+                            icon="fa-cut"
+                            title="Copy"
+                            attrs="{'invisible': [('id', '=', False)]}"/>
+                    <field name="commit_id" class="case_id_class"/>
+                </div>
+            </field>
+            <xpath expr="//notebook/page[@name='description_page']" position="after">
+                <page name="commits_page" string="Commits">
+                    <field name="commit_ids"/>
+                </page>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="quick_create_task_form_generic_request2" model="ir.ui.view">
+        <field name="name">project.task.form.quick.create.task.form.inherit.generic_request2</field>
+        <field name="model">project.task</field>
+        <field name="inherit_id" ref="project.quick_create_task_form"/>
+        <field name="arch" type="xml">
+            <field name="name" position='after'>
+                <field name="is_request_required" invisible="1"/>
+                <field name="request_id" attrs="{'required': [('is_request_required', '=', True)]}"/>
+            </field>
+        </field>
+    </record>
+
+
+</odoo>

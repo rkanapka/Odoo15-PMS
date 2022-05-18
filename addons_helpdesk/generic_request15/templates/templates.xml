@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <template id="assets_backend" name="Generic Request Assets" inherit_id="web.assets_backend">
+        <xpath expr="." position="inside">
+            <script type="text/javascript" src="/generic_request15/static/src/js/field_request_html.js"></script>
+            <script type="text/javascript" src='/generic_request15/static/src/js/request_tag_widget.js'/>
+            <link rel="stylesheet"
+                  type="text/scss"
+                  href='/generic_request15/static/src/scss/request_kanban_tags.scss'/>
+            <link rel='stylesheet' type="text/scss" href='/generic_request15/static/src/scss/request_timesheet.scss'/>
+        </xpath>
+    </template>
+</odoo>

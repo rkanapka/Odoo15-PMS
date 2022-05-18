@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <record id="res_company_form_inherit_generic_request15" model="ir.ui.view">
+            <field name="name">res.company.form.inherit.generic_request15</field>
+            <field name="model">res.company</field>
+            <field name="inherit_id" ref="base.view_company_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//sheet/notebook" position="inside">
+                    <page string="Other" name="other_settings" groups="base.group_no_one">
+                        <group string="Toggle Feature">
+                            <div class="alert alert-warning mb-0" role="alert" colspan="2">
+                                These settings should be turned on in Production environment.
+                            </div>
+                            <br/>
+                            <field name="is_project_required"/>
+                            <field name="is_request_required"/>
+                        </group>
+                    </page>
+                </xpath>
+            </field>
+        </record>
+
+    </data>
+</odoo>
