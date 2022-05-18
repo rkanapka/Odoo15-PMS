@@ -1,0 +1,162 @@
+<?xml version="1.0" ?>
+<openerp>
+    <data>
+
+        <menuitem id="menu_repositories" name="Repositories"/>
+
+        <!-- Repository -->
+        <record model="ir.ui.view" id="view_repository_repository_form">
+            <field name="name">repository.repository.form</field>
+            <field name="model">repository.repository</field>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                <form string="Repository">
+                    <group>
+                        <group>
+                            <field name="name"/>
+                            <field name="odoo_version_id"/>
+                            <field name="url"/>
+                            <field name="release_application_dir"/>
+                            <field name="release_addons_dir"/>
+                        </group>
+                        <group string="Branches">
+                            <field name="branch_ids" nolabel="1"/>
+                        </group>
+                        <notebook colspan="4">
+                            <page string="Addons Commits">
+                                <field name="revision_ids" nolabel="1" colspan="4" model="tree,form">
+                                    <tree string="Revisions">
+                                        <field name="no"/>
+                                        <field name="name"/>
+                                        <field name="date"/>
+                                        <field name="user_id"/>
+                                        <field name="log"/>
+                                    </tree>
+                                    <form string="Revision">
+                                        <group>
+                                            <field name="no"/>
+                                            <field name="name"/>
+                                            <field name="date"/>
+                                            <field name="user_id"/>
+                                        </group>
+                                        <notebook colspan="4">
+                                            <page string="Log">
+                                                <field name="log" nolabel="1" colspan="4"/>
+                                                <separator string="Changed"/>
+                                                <field name="changed" nolabel="1" colspan="4"/>
+                                            </page>
+                                        </notebook>
+                                    </form>
+                                </field>
+                            </page>
+                            <page string="Application Commits">
+                                <field name="revision_ids" nolabel="1" colspan="4" model="tree,form">
+                                    <tree string="Revisions">
+                                        <field name="no"/>
+                                        <field name="name"/>
+                                        <field name="date"/>
+                                        <field name="user_id"/>
+                                        <field name="log"/>
+                                    </tree>
+                                    <form string="Revision">
+                                        <group>
+                                            <field name="no"/>
+                                            <field name="name"/>
+                                            <field name="date"/>
+                                            <field name="user_id"/>
+                                        </group>
+                                        <notebook colspan="4">
+                                            <page string="Log">
+                                                <field name="log" nolabel="1" colspan="4"/>
+                                                <separator string="Changed"/>
+                                                <field name="changed" nolabel="1" colspan="4"/>
+                                            </page>
+                                        </notebook>
+                                    </form>
+                                </field>
+                            </page>
+                        </notebook>
+                    </group>
+                </form>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="view_repository_repository_tree">
+            <field name="name">repository.repository.tree</field>
+            <field name="model">repository.repository</field>
+            <field name="type">tree</field>
+            <field name="arch" type="xml">
+                <tree string="Repositories">
+                    <field name="name"/>
+                    <field name="url"/>
+                </tree>
+            </field>
+        </record>
+
+        <record model="ir.actions.act_window" id="action_repository_repository_form">
+            <field name="name">Repositories</field>
+            <field name="res_model">repository.repository</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+        <menuitem parent="menu_repositories"
+                  id="menu_action_repository_repository_form"
+                  action="action_repository_repository_form"/>
+
+        <!-- Repository Revision -->
+        <record model="ir.ui.view" id="view_repository_revision_form">
+            <field name="name">repository.revision.form</field>
+            <field name="model">repository.revision</field>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                <form string="Revision">
+                    <sheet>
+                        <group>
+                            <field name="repository_id"/>
+                            <field name="no"/>
+                            <field name="name"/>
+                            <field name="date"/>
+                            <field name="user_id"/>
+                            <field name="branch_name"/>
+                            <notebook colspan="4">
+                                <page string="Log">
+                                    <field name="log" nolabel="1" colspan="4" select="2"/>
+                                    <separator string="Changed"/>
+                                    <field name="changed" nolabel="1" colspan="4"/>
+                                </page>
+                            </notebook>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="view_repository_revision_tree">
+            <field name="name">repository.revision.tree</field>
+            <field name="model">repository.revision</field>
+            <field name="type">tree</field>
+            <field name="arch" type="xml">
+                <tree string="Revisions">
+                    <field name="repository_id"/>
+                    <field name="no"/>
+                    <field name="name"/>
+                    <field name="date"/>
+                    <field name="user_id"/>
+                    <field name="log"/>
+                </tree>
+            </field>
+        </record>
+
+        <record model="ir.actions.act_window" id="action_repository_revision_form">
+            <field name="name">Revisions</field>
+            <field name="res_model">repository.revision</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+        <menuitem parent="menu_repositories"
+                  id="menu_action_repository_revision_form"
+                  action="action_repository_revision_form"/>
+
+    </data>
+</openerp>
+

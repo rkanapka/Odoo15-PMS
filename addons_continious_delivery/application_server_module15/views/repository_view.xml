@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <data>
+
+        <record model="ir.ui.view" id="view_repository_revision_form_application_server_module15">
+            <field name="name">repository.revision.form.application.server.module15</field>
+            <field name="inherit_id" ref="repository15.view_repository_revision_form"/>
+            <field name="model">repository.revision</field>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                <field name="user_id" position="after">
+                    <field name="version_id"/>
+                </field>
+            </field>
+        </record>
+
+    </data>
+</odoo>

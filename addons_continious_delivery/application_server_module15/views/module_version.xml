@@ -1,0 +1,167 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <data>
+        <!-- Version Category -->
+        <record model="ir.ui.view" id="view_module_version_category_form">
+            <field name="name">module.version.category.form</field>
+            <field name="model">module.version.category</field>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                <form string="Version Category">
+                    <group>
+                        <field name="name"/>
+                        <field name="sequence"/>
+                    </group>
+                </form>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="view_module_version_category_tree">
+            <field name="name">module.version.category.tree</field>
+            <field name="model">module.version.category</field>
+            <field name="type">tree</field>
+            <field name="arch" type="xml">
+                <tree string="Version Categories">
+                    <field name="sequence"/>
+                    <field name="name"/>
+                </tree>
+            </field>
+        </record>
+
+        <record model="ir.actions.act_window" id="action_module_version_category">
+            <field name="name">Version Categories</field>
+            <field name="res_model">module.version.category</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+        <!-- Version -->
+        <record model="ir.ui.view" id="view_module_version_form">
+            <field name="name">module.version.form</field>
+            <field name="model">module.version</field>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                <form string="Version">
+                    <group>
+                        <group>
+                            <field name="version_name"/>
+                            <field name="code_id"/>
+                            <field name="branch_id"/>
+                            <field name="odoo_version_id"/>
+                            <field name="no"/>
+                        </group>
+                        <notebook colspan="4">
+                            <page string="General Information">
+                                <group>
+                                    <group>
+                                        <field name="create_date"/>
+                                        <field name="create_uid"/>
+                                        <field name="release_date"/>
+                                        <field name="user_released_id"/>
+                                        <field name="active"/>
+                                    </group>
+                                    <group name="commits" string="Commits" colspan="2">
+                                        <field name="commit_ids" nolabel="1"/>
+                                    </group>
+                                </group>
+                            </page>
+                            <page string="Application">
+                                <group string="Application">
+                                    <field name="application_version_ids" nolabel="1"/>
+                                    <newline/>
+                                </group>
+                                <group string="Modules">
+                                    <field name="module_ids" nolabel="1"/>
+                                    <newline/>
+                                </group>
+                            </page>
+                            <page string="Installations">
+                            </page>
+                        </notebook>
+                    </group>
+                </form>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="view_module_version_tree">
+            <field name="name">module.version.tree</field>
+            <field name="model">module.version</field>
+            <field name="type">tree</field>
+            <field name="arch" type="xml">
+                <tree string="Versions">
+                    <field name="version_name"/>
+                    <field name="release_date"/>
+                    <field name="user_released_id"/>
+                </tree>
+            </field>
+        </record>
+
+        <record model="ir.actions.act_window" id="action_module_version_form">
+            <field name="name">Versions</field>
+            <field name="res_model">module.version</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+        <!-- Version Code -->
+        <record model="ir.ui.view" id="view_module_version_code_form">
+            <field name="name">module.version.code.form</field>
+            <field name="model">module.version.code</field>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                <form string="Version Code">
+                    <group>
+                        <group>
+                            <field name="code"/>
+                        </group>
+                        <newline/>
+                        <notebook>
+                            <page string="General Information">
+                                <group>
+                                    <field name="create_date"/>
+                                    <field name="create_uid"/>
+                                    <field name="category_id"/>
+                                    <field name="active"/>
+                                </group>
+                            </page>
+                            <page string="Branches / Versions">
+                            </page>
+                        </notebook>
+                    </group>
+                </form>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="view_module_version_code_tree">
+            <field name="name">module.version.code.tree</field>
+            <field name="model">module.version.code</field>
+            <field name="type">tree</field>
+            <field name="arch" type="xml">
+                <tree string="Version Codes">
+                    <field name="code"/>
+                    <field name="create_date"/>
+                    <field name="create_uid"/>
+                </tree>
+            </field>
+        </record>
+
+        <record model="ir.actions.act_window" id="action_module_version_code_form">
+            <field name="name">Codes</field>
+            <field name="res_model">module.version.code</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+        <menuitem id="menu_module_version" name="Versions"/>
+
+        <menuitem id="menu_action_module_version_form"
+                  action="action_module_version_form"
+                  parent="menu_module_version"/>
+
+        <menuitem id="menu_action_module_version_code_form"
+                  action="action_module_version_code_form"
+                  parent="menu_module_version"/>
+
+        <menuitem id="menu_action_module_version_category"
+                  action="action_module_version_category"
+                  parent="menu_module_version"/>
+
+    </data>
+</odoo>

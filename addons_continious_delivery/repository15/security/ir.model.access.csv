@@ -1,0 +1,5 @@
+"id","name","model_id:id","group_id:id","perm_read","perm_write","perm_create","perm_unlink"
+"access_repository_repository_admin","repository.repository admin","model_repository_repository","base.group_system",1,1,1,1
+"access_repository_revision_admin","repository.revision admin","model_repository_revision","base.group_system",1,1,1,1
+"access_repository_branch_manager","repository.branch admin","model_repository_branch","base.group_system",1,1,1,1
+"access_repository_version_manager","repository.version admin","model_repository_version","base.group_system",1,1,1,1

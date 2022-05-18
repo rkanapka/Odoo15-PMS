@@ -1,0 +1,57 @@
+<?xml version="1.0" ?>
+<openerp>
+    <data>
+
+        <record model="ir.ui.view" id="view_repository_branch_form">
+            <field name="name">repository.branch.form</field>
+            <field name="model">repository.branch</field>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                <form string="Branches">
+                    <sheet>
+                        <group>
+                            <group>
+                                <field name="branch_type"/>
+                                <field name="name"/>
+                            </group>
+                            <separator/>
+                            <notebook>
+                                <page string="General Information">
+                                    <group>
+                                        <field name="create_date"/>
+                                        <field name="create_uid"/>
+                                    </group>
+                                </page>
+                            </notebook>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="view_repository_branch_tree">
+            <field name="name">repository.branch.tree</field>
+            <field name="model">repository.branch</field>
+            <field name="type">tree</field>
+            <field name="arch" type="xml">
+                <tree string="Branches">
+                    <field name="branch_type"/>
+                    <field name="name"/>
+                    <field name="create_date"/>
+                    <field name="create_uid"/>
+                </tree>
+            </field>
+        </record>
+
+        <record model="ir.actions.act_window" id="action_repository_branch_form">
+            <field name="name">Branches</field>
+            <field name="res_model">repository.branch</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+        <menuitem parent="menu_repositories"
+                  id="menu_action_repository_branch_form"
+                  action="action_repository_branch_form"/>
+
+    </data>
+</openerp>

@@ -1,0 +1,8 @@
+"id","name","model_id:id","group_id:id","perm_read","perm_write","perm_create","perm_unlink"
+"access_application_server_module_admin","application_server.module admin","model_application_server_module","base.group_system",1,1,1,1
+"access_application_server_module_type_admin","application_server.module.type admin","model_application_server_module_type","base.group_system",1,1,1,1
+"access_application_server_module_category_admin","application_server.module.category admin","model_application_server_module_category","base.group_system",1,1,1,1
+
+"access_module_version_code_manager","module.version.code manager","model_module_version_code","base.group_user",1,1,1,1
+"access_module_version_category_manager","module.version.category manager","model_module_version_category","base.group_user",1,1,1,1
+"access_module_version_manager","module.version manager","model_module_version","base.group_user",1,1,1,1

@@ -1,0 +1,23 @@
+"id","name","model_id:id","group_id:id","perm_read","perm_write","perm_create","perm_unlink"
+"access_application_server_application_manager","application_server.application manager","model_application_server_application","base.group_erp_manager",1,1,1,1
+"access_application_server_application_user","application_server.application user","model_application_server_application","base.group_user",1,0,0,0
+
+"access_application_server_application_version_manager","application_server.application.version manager","model_application_server_application_version","base.group_erp_manager",1,1,1,1
+"access_application_server_application_version_user","application_server.application.version user","model_application_server_application_version","base.group_user",1,0,0,0
+
+"access_application_server_application_version_release_manager","application_server.application.version.release manager","model_application_server_application_version_release","base.group_erp_manager",1,1,1,1
+"access_application_server_application_version_release_user","application_server.application.version.release user","model_application_server_application_version_release","base.group_user",1,0,0,0
+
+"access_application_server_server_manager","application_server.server manager","model_application_server_server","base.group_erp_manager",1,1,1,1
+"access_application_server_server_user","application_server.server user","model_application_server_server","base.group_user",1,0,0,0
+
+"access_application_server_server_installation_manager","application_server.server.installation manager","model_application_server_server_installation","base.group_erp_manager",1,1,1,1
+"access_application_server_server_installation_user","application_server.server.installation user","model_application_server_server_installation","base.group_user",1,0,0,0
+
+"access_application_server_server_type_manager","application_server.server.type manager","model_application_server_server_type","base.group_erp_manager",1,1,1,1
+"access_application_server_server_type_user","application_server.server.type user","model_application_server_server_type","base.group_user",1,0,0,0
+
+"access_application_server.server.os_user","application_server.server.os user","model_application_server_server_os","base.group_user",1,1,1,0
+"access_application_server.server.db_version_user","application_server.server.db_version user","model_application_server_server_db_version","base.group_user",1,1,1,0
+"access_application_server.server.connect_type_user","application_server.server.connect_type user","model_application_server_server_connect_type","base.group_user",1,1,1,0
+"access_application_server.server.python_version_user","application_server.server.python_version user","model_application_server_server_python_version","base.group_user",1,1,1,0

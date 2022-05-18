@@ -1,0 +1,165 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <data>
+
+        <!-- Application -->
+        <record id="view_application_server_application_form" model="ir.ui.view">
+            <field name="name">application_server.application.form</field>
+            <field name="model">application_server.application</field>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                <form string="Application">
+                    <sheet>
+                        <group>
+                            <field name="name" select="1"/>
+                            <newline/>
+                            <field name="version_ids" colspan="4">
+                                <tree string="Versions">
+                                    <field name="name"/>
+                                    <field name="release_ids"/>
+                                </tree>
+                                <form string="Version">
+                                    <label for="name"/>
+                                    <field name="name" select="1"/>
+                                    <newline/>
+                                    <field name="release_ids" colspan="4">
+                                        <tree string="Releases" editable="bottom">
+                                            <field name="no"/>
+                                            <field name="name"/>
+                                        </tree>
+                                        <form string="Release">
+                                            <field name="no"/>
+                                            <field name="name"/>
+                                        </form>
+                                    </field>
+                                </form>
+                            </field>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="view_application_server_application_tree" model="ir.ui.view">
+            <field name="name">application_server.application.tree</field>
+            <field name="model">application_server.application</field>
+            <field name="type">tree</field>
+            <field name="arch" type="xml">
+                <tree string="Applications">
+                    <field name="name"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="action_application_server_application_form" model="ir.actions.act_window">
+            <field name="name">Applications</field>
+            <field name="res_model">application_server.application</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+        <!-- Application Version -->
+        <record id="view_application_server_application_version_form" model="ir.ui.view">
+            <field name="name">application_server.application.version.form</field>
+            <field name="model">application_server.application.version</field>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                <form string="Version">
+                    <sheet>
+                        <group>
+                            <field name="name" select="1"/>
+                            <field name="application_id" select="1"/>
+                            <newline/>
+                            <field name="release_ids" colspan="4">
+                                <tree string="Releases" editable="bottom">
+                                    <field name="no"/>
+                                    <field name="name"/>
+                                </tree>
+                                <form string="Release">
+                                    <field name="no"/>
+                                    <field name="name"/>
+                                </form>
+                            </field>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="view_application_server_application_version_tree" model="ir.ui.view">
+            <field name="name">application_server.application.version.tree</field>
+            <field name="model">application_server.application.version</field>
+            <field name="type">tree</field>
+            <field name="arch" type="xml">
+                <tree string="Versions">
+                    <field name="name"/>
+                    <field name="application_id"/>
+                    <field name="release_ids"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="action_application_server_application_version_form" model="ir.actions.act_window">
+            <field name="name">Application Versions</field>
+            <field name="res_model">application_server.application.version</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+        <!-- Application Version Release -->
+        <record id="view_application_server_application_version_release_form" model="ir.ui.view">
+            <field name="name">application_server.application.version.release.form</field>
+            <field name="model">application_server.application.version.release</field>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                <form string="Release">
+                    <sheet>
+                        <group>
+                            <field name="application_id" select="1"/>
+                            <field name="version_id" select="1"/>
+                            <field name="no" select="2"/>
+                            <field name="name" select="1"/>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="view_application_server_application_version_release_tree" model="ir.ui.view">
+            <field name="name">application_server.application.version.release.tree</field>
+            <field name="model">application_server.application.version.release</field>
+            <field name="type">tree</field>
+            <field name="arch" type="xml">
+                <tree string="Releases">
+                    <field name="application_id"/>
+                    <field name="version_id"/>
+                    <field name="no"/>
+                    <field name="name"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="action_application_server_application_version_release_form" model="ir.actions.act_window">
+            <field name="name">Application Version Releases</field>
+            <field name="res_model">application_server.application.version.release</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+        <menuitem id="menu_application_servers" name="Applications"/>
+
+        <menuitem id="menu_action_application_server_application_form"
+                  action="action_application_server_application_form"
+                  parent="menu_application_servers"
+                  sequence="10"/>
+
+        <menuitem id="menu_action_application_server_application_version_form"
+                  action="action_application_server_application_version_form"
+                  parent="menu_application_servers"
+                  sequence="20"/>
+
+        <menuitem id="menu_action_application_server_application_version_release_form"
+                  action="action_application_server_application_version_release_form"
+                  parent="menu_application_servers"
+                  sequence="30"/>
+
+    </data>
+</odoo>
+

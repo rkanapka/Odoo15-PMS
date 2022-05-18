@@ -1,0 +1,146 @@
+- name: Sandas Continuous Deployment
+  gather_facts: false
+  hosts: all
+  tasks:
+    # Source VENV in remote machine if it is filled in client server card
+    - set_fact:
+        ansible_python_interpreter: '{{ venv_path }}'
+      when: venv_path != false
+
+    - name: Compress Sandas Version directory into ZIP
+      archive:
+        path: /home/sandas/releases_source/addons/{{ item }}
+        dest: /home/sandas/releases_archive/{{ item }}.zip
+        format: zip
+      delegate_to: localhost
+      with_items: " {{ sandas_versions }} "
+
+    - name: Copy Sandas Zipped Version to Client Test Server
+      copy:
+        src: /home/sandas/releases_archive/{{ item }}.zip
+        dest: "{{ versions_path }}"
+      with_items: " {{ sandas_versions }} "
+
+    - name: Unarchive Sandas Version ZIP
+      unarchive:
+        src: /home/sandas/releases_archive/{{ item }}.zip
+        dest: "{{versions_path}}"
+      with_items: " {{ sandas_versions }} "
+
+    # Move module to /tmp if it is not sym link
+    # Make list named all_modules from string modules_to_upgrade
+    - set_fact:
+        all_modules: "{{ modules_to_upgrade.split(',') }}"
+
+    - stat: path={{ addons_path }}{{ item }}
+      register: links
+      with_items: " {{ all_modules }}"
+
+    - name: "Move module to /tmp if it is not sym link"
+      command: mv {{ item.stat.path}} /tmp/old_{{ item }}
+      with_items: "{{ links.results }}"
+      when: links.stat.islnk is defined and not links.stat.islnk
+
+    - name: Create symbolic addons link
+      shell:
+        cmd: ln -sf {{ versions_path }}{{ item }}/* {{ addons_path }}
+        warn: False
+      with_items: " {{ sandas_versions }} "
+
+    # Upgrade Odoo modules with SQL *****
+    - name: Collect all Databases from Client Server
+      community.postgresql.postgresql_info:
+        login_host: "{{ db_conn.host }}"
+        port: "{{ db_conn.port }}"
+        db: template1
+        login_user: "{{ db_conn.user }}"
+        filter:
+        - "databases"
+      register: all_dbs
+
+    # Add DBs names to list named db_list
+    - set_fact:
+        db_list: "{{ all_dbs.databases.keys() | list }}"
+
+    # SQL Query checks if ir_module_module table exists in DB. If it exists it runs module upgrade query.
+    - name: Upgrade Odoo Modules
+      postgresql_query:
+        login_host: "{{ db_conn.host }}"
+        port: "{{ db_conn.port }}"
+        db: "{{ item }}"
+        login_user: "{{ db_conn.user }}"
+        query: |
+          DROP FUNCTION IF EXISTS update_if_exists ();
+          
+          CREATE FUNCTION update_if_exists () RETURNS TABLE (id integer, name varchar) AS $$
+                    BEGIN
+                      IF EXISTS(SELECT *
+                             FROM information_schema.tables
+                             WHERE table_schema = current_schema()
+                                   AND table_name = 'ir_module_module') THEN
+                        RETURN QUERY
+                        WITH RECURSIVE rcte_modules_to_upgrade AS
+                        (
+                        SELECT
+                        m.id as module_id
+                        , m.name as module_name
+                        , md.id as dependency_id
+                        , md.name as dependency_name
+                        , m.id as base_module_id
+                        , 1 as depth
+                        FROM ir_module_module m
+                        JOIN ir_module_module_dependency md
+                          ON md.module_id = m.id
+                        WHERE md.name = ANY(STRING_TO_ARRAY(%(modules)s, ','))
+                          AND m.state = 'installed'
+                        UNION ALL
+                        SELECT
+                        m.id
+                        , m.name
+                        , md.id
+                        , md.name as dependency_name
+                        , rcte.base_module_id
+                        , rcte.depth + 1
+                        FROM rcte_modules_to_upgrade rcte
+                        LEFT JOIN ir_module_module_dependency md
+                        ON md.name = rcte.module_name
+                        JOIN ir_module_module m
+                        ON m.id = md.module_id
+                        WHERE m.state = 'installed'
+                        )
+                        SELECT DISTINCT module_id, module_name FROM rcte_modules_to_upgrade
+                        UNION
+                        SELECT imm.id, imm.name FROM ir_module_module AS imm
+                          WHERE imm.name = ANY(STRING_TO_ARRAY(%(modules)s, ',')) AND imm.state = 'installed';
+                      END IF;
+                    END;
+                    $$ LANGUAGE PLPGSQL;
+          
+                    DO $$
+                    BEGIN
+                    IF EXISTS
+                      ( SELECT 1
+                        FROM   information_schema.tables
+                        WHERE  table_schema = 'public'
+                        AND    table_name = 'ir_module_module'
+                       )
+                    THEN
+                      UPDATE ir_module_module
+                        SET state = 'to upgrade'
+                          WHERE id IN (SELECT DISTINCT id FROM update_if_exists());
+                    END IF ;
+                    END
+                    $$ ;
+        named_args:
+          modules: "{{ modules_to_upgrade }}"
+      with_items: " {{ db_list }} "
+
+    # Server restart functionality
+    - name: Copy server restart.sh script to client server
+      copy:
+        src: "{{ restart_script_path }}"
+        dest: "~/"
+        mode: 0700
+
+    - name: Execute server restart the script
+      command: sh ~/restart.sh "{{ restart_command }}" "{{ configs }}"

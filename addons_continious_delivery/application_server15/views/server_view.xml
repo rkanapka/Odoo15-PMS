@@ -1,0 +1,382 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <data>
+
+        <!-- Server Type -->
+        <record id="view_application_server_server_type_form" model="ir.ui.view">
+            <field name="name">application_server.server.type.form</field>
+            <field name="model">application_server.server.type</field>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                <form string="Server Type">
+                    <group>
+                        <field name="code"/>
+                        <field name="name"/>
+                    </group>
+                </form>
+            </field>
+        </record>
+
+        <record id="view_application_server_server_type_tree" model="ir.ui.view">
+            <field name="name">application_server.server.type.tree</field>
+            <field name="model">application_server.server.type</field>
+            <field name="type">tree</field>
+            <field name="arch" type="xml">
+                <tree string="Server Type">
+                    <field name="code"/>
+                    <field name="name"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="action_application_server_server_type_form" model="ir.actions.act_window">
+            <field name="name">Server Types</field>
+            <field name="res_model">application_server.server.type</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+        <!-- Server -->
+        <record id="view_application_server_server_form" model="ir.ui.view">
+            <field name="name">application_server.server.form</field>
+            <field name="model">application_server.server</field>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                <form string="Server">
+                    <sheet>
+                        <div class="oe_button_box" name="button_box">
+                            <button name="open_client_website" type="object" class="oe_stat_button">
+                                <i class="fa fa-fw o_button_icon fa-globe text-success" title="globe"/>
+                                <div class="o_field_widget o_stat_info">
+                                    <span class="o_stat_text">Go to</span>
+                                    <span class="o_stat_text">Website</span>
+                                </div>
+                            </button>
+                        </div>
+                        <widget name="web_ribbon"
+                                title="Archived"
+                                bg_color="bg-danger"
+                                attrs="{'invisible': [('active', '=', True)]}"/>
+                        <div class="oe_title mb24">
+                            <b>
+                                <field name="server_type" readonly="1"/>
+                            </b>
+
+                            <h1>
+                                <field id="server_name"
+                                       class="o_text_overflow"
+                                       name="name"
+                                       default_focus="1"
+                                       placeholder="e.g. Server Name"/>
+                            </h1>
+                            <h2>
+                                <field name="partner_id" placeholder="e.g. Partner Name"/>
+                            </h2>
+                        </div>
+                        <group>
+                            <group>
+                                <field name="type"/>
+                                <field name="python_version"/>
+                                <field name="ssh_username"/>
+                                <field name="ssh_port"/>
+                            </group>
+                            <group>
+                                <field name="portal_username"/>
+                                <field name="portal_password"/>
+                                <field name="db_host"/>
+                                <field name="db_port"/>
+                                <field name="host"/>
+                                <field name="port"/>
+                                <field name="protocol"/>
+                            </group>
+                            <field name="active" invisible="1"/>
+                            <notebook colspan="4">
+                                <page string="General">
+                                    <group>
+                                        <group>
+                                            <field name="os_id"/>
+                                        </group>
+                                        <group>
+                                            <field name="db_version_id"/>
+                                        </group>
+                                        <group colspan="2">
+                                            <field name="log_path"/>
+                                            <field name="server_restart"/>
+                                            <field name="connection"/>
+                                            <field name="connection_client" widget="url"
+                                                   placeholder="e.g. https://www.sandas.lt"/>
+                                            <field name="connection_type_id"/>
+                                            <newline/>
+
+                                        </group>
+
+                                        <group name="description" string="Description" colspan="2">
+                                            <field name="description" nolabel="1"/>
+                                        </group>
+                                    </group>
+                                </page>
+                                <page string="CI / CD">
+                                    <group>
+                                        <group name="ci_cd" string="CI / CD">
+                                            <field name="auto_install"/>
+                                            <field name="restart_cmd"/>
+                                            <field name="configs"/>
+                                        </group>
+                                        <group name="path" string="Path">
+                                            <field name="versions_archive_path"/>
+                                            <field name="applications_archive_path"/>
+                                            <field name="addons_path"/>
+                                            <field name="venv_path"/>
+                                        </group>
+                                    </group>
+                                </page>
+                                <page string="Installations">
+                                    <field name="installation_ids" colspan="4" nolabel="1">
+                                        <tree string="Installations">
+                                            <field name="date"/>
+                                            <field name="user_id"/>
+                                            <field name="application_ids"/>
+                                            <field name="state"/>
+                                        </tree>
+                                        <form string="Installation">
+                                            <header>
+                                                <button name="set_to_in_progress"
+                                                        states="draft"
+                                                        string="In Progress"
+                                                        type="object"
+                                                        class="oe_highlight"/>
+                                                <button name="set_to_done"
+                                                        states="in_progress"
+                                                        string="Done"
+                                                        type="object"
+                                                        class="oe_highlight"/>
+                                                <button name="set_to_draft"
+                                                        states="done"
+                                                        string="Set to Draft"
+                                                        type="object"
+                                                        class="oe_highlight"/>
+                                                <button name="deploy_modules_with_ansible"
+                                                        states="in_progress"
+                                                        type="object"
+                                                        string="Ansible install"
+                                                        class="btn-success"
+                                                        confirm="This will do Ansible install. Do you want to proceed?"/>
+                                                <field name="state" widget="statusbar"/>
+                                            </header>
+                                            <group>
+                                                <field name="date"/>
+                                                <field name="user_id"/>
+                                            </group>
+                                            <notebook>
+                                                <page string="Applications">
+                                                    <field name="application_ids" nolabel="1"/>
+                                                </page>
+                                                <page string="Notes">
+                                                    <label for="notes"/>
+                                                    <field name="notes" colspan="4"/>
+                                                </page>
+                                            </notebook>
+
+                                        </form>
+
+                                    </field>
+                                </page>
+
+                                <page string="Applications and Versions">
+                                    <button string="Fill in Last Versions" name="fill_last_versions"
+                                            type="object" colspan="2"/>
+                                    <newline/>
+                                    <group col="2" colspan="2" expand="1">
+                                        <separator string="Last Installed Applications" colspan="2"/>
+                                        <field name="last_application_ids" nolabel="1" readonly="1" colspan="2">
+                                            <tree string="Last Installed Applications">
+                                                <field name="application_id"/>
+                                                <field name="version_id"/>
+                                                <field name="no"/>
+                                                <field name="name"/>
+                                            </tree>
+                                        </field>
+                                    </group>
+                                    <group col="2" colspan="2" expand="1">
+                                        <separator string="Last Installed Versions" colspan="2"/>
+                                        <!--                                        <field name="last_version_ids" nolabel="1" readonly="1" colspan="2">-->
+                                        <!--                                            <tree string="Last Installed Versions">-->
+                                        <!--                                                <field name="name"/>-->
+                                        <!--                                                <field name="branch_id"/>-->
+                                        <!--                                                <field name="modules" width="500"/>-->
+                                        <!--                                            </tree>-->
+                                        <!--                                        </field>-->
+                                    </group>
+                                </page>
+
+                                <!--                                -->
+                                <page string="Configuration">
+                                    <group>
+                                        <field name="server_type"/>
+                                        <field name="use_sources"/>
+                                    </group>
+                                </page>
+                            </notebook>
+                        </group>
+                    </sheet>
+                    <div class="oe_chatter">
+                        <!--<field name="message_follower_ids" widget="mail_followers"/>-->
+                        <field name="message_ids"/>
+                    </div>
+                </form>
+            </field>
+        </record>
+
+        <record id="view_application_server_server_tree" model="ir.ui.view">
+            <field name="name">application_server.server.tree</field>
+            <field name="model">application_server.server</field>
+            <field name="type">tree</field>
+            <field name="arch" type="xml">
+                <tree string="Servers">
+                    <field name="name"/>
+                    <field name="type"/>
+                    <field name="partner_id"/>
+                    <field name="installation_ids"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="view_application_server_server_search" model="ir.ui.view">
+            <field name="name">application_server.server.search</field>
+            <field name="model">application_server.server</field>
+            <field name="type">search</field>
+            <field name="arch" type="xml">
+                <search string="Servers">
+                    <filter name="archived" string="Archived" domain="[('active', '=', False)]"/>
+                    <group>
+                        <field name="name"/>
+                        <field name="partner_id"/>
+                    </group>
+                    <newline/>
+                    <group expand="0" string="Group By...">
+                        <filter string="Partner" name="partner" context="{'group_by':'partner_id'}"/>
+                    </group>
+                </search>
+            </field>
+        </record>
+
+        <record id="action_application_server_server_form" model="ir.actions.act_window">
+            <field name="name">Servers</field>
+            <field name="res_model">application_server.server</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+        <!-- Server Installation -->
+        <record id="view_application_server_server_installation_form" model="ir.ui.view">
+            <field name="name">application_server.server.installation.form</field>
+            <field name="model">application_server.server.installation</field>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                <form string="Installation">
+                    <header>
+                        <button name="set_to_in_progress"
+                                states="draft"
+                                string="In Progress"
+                                type="object"
+                                class="oe_highlight"/>
+                        <button name="set_to_done"
+                                states="in_progress"
+                                string="Done"
+                                type="object"
+                                class="oe_highlight"/>
+                        <button name="set_to_draft"
+                                states="done"
+                                string="Set to Draft"
+                                type="object"
+                                class="oe_highlight"/>
+                        <button name="deploy_modules_with_ansible"
+                                states="in_progress"
+                                type="object"
+                                string="Ansible install"
+                                class="btn-success"
+                                confirm="This will do Ansible install. Do you want to proceed?"/>
+                        <field name="state" widget="statusbar"/>
+                    </header>
+                    <sheet>
+                        <group>
+                            <field name="server_id"/>
+                            <field name="date"/>
+                            <field name="user_id"/>
+                        </group>
+                        <notebook>
+                            <page string="Applications">
+                                <field name="application_ids"/>
+                            </page>
+                            <page string="Notes">
+                                <label for="notes"/>
+                                <field name="notes"/>
+                            </page>
+                        </notebook>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="view_application_server_server_installation_tree" model="ir.ui.view">
+            <field name="name">application_server.server.installation.tree</field>
+            <field name="model">application_server.server.installation</field>
+            <field name="type">tree</field>
+            <field name="arch" type="xml">
+                <tree string="Installations">
+                    <field name="server_id"/>
+                    <field name="date"/>
+                    <field name="user_id"/>
+                    <field name="application_ids"/>
+                    <field name="state"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="view_application_server_server_installation_search" model="ir.ui.view">
+            <field name="name">application_server.server.installation.search</field>
+            <field name="model">application_server.server.installation</field>
+            <field name="arch" type="xml">
+                <search string="Installations">
+                    <group>
+                        <filter string="Draft" name='draft' domain="[('state','=','draft')]"/>
+                        <filter string="In Progress" name='in_progress' domain="[('state','=','in_progress')]"/>
+                        <filter string="Done" name='done' domain="[('state','=','done')]"/>
+                        <separator orientation="vertical"/>
+                        <field name="server_id"/>
+                        <field name="date"/>
+                        <field name="user_id"/>
+                    </group>
+                    <newline/>
+                    <group expand="0" string="Group By...">
+                        <filter string="Server" name="server" context="{'group_by':'server_id'}"/>
+                        <filter string="User" name="user" context="{'group_by':'user_id'}"/>
+                    </group>
+                </search>
+            </field>
+        </record>
+
+        <record id="action_application_server_server_installation_form" model="ir.actions.act_window">
+            <field name="name">Server Installations</field>
+            <field name="res_model">application_server.server.installation</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+        <menuitem id="menu_servers" name="Servers"/>
+
+        <menuitem id="menu_action_application_server_server_form"
+                  action="action_application_server_server_form"
+                  parent="menu_servers"
+                  sequence="10"/>
+
+        <menuitem id="menu_action_application_server_server_installation_form"
+                  action="action_application_server_server_installation_form"
+                  parent="menu_servers"
+                  sequence="20"/>
+
+        <menuitem id="menu_action_application_server_server_type_form"
+                  action="action_application_server_server_type_form"
+                  parent="menu_servers"
+                  sequence="30"/>
+
+    </data>
+</odoo>
+

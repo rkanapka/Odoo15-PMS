@@ -1,0 +1,185 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <data>
+
+        <!-- Module -->
+        <record id="view_application_server_module_form" model="ir.ui.view">
+            <field name="name">application_server.module.form</field>
+            <field name="model">application_server.module</field>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                <form string="Module">
+                    <sheet>
+                        <group>
+                            <group>
+                                <field name="name"/>
+                                <field name="repository_id"/>
+                                <field name="odoo_version_id"/>
+                            </group>
+                            <group>
+                                <field name="application_id"/>
+                                <field name="type_id"/>
+                            </group>
+                            <notebook colspan="4">
+                                <page string="General Information">
+                                    <group>
+                                        <field name="category_id"/>
+                                        <field name="description" colspan="4"/>
+                                    </group>
+                                </page>
+                                <page string="Commits">
+                                    <group string="Developing" colspan="2">
+                                        <field name="dev_version_ids"/>
+                                    </group>
+                                    <group string="Production" colspan="2">
+                                        <field name="prod_version_ids"/>
+                                    </group>
+                                </page>
+                            </notebook>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="view_application_server_module_tree" model="ir.ui.view">
+            <field name="name">application_server.module.tree</field>
+            <field name="model">application_server.module</field>
+            <field name="type">tree</field>
+            <field name="arch" type="xml">
+                <tree string="Modules">
+                    <field name="name"/>
+                    <field name="odoo_version_id"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="action_application_server_module_form" model="ir.actions.act_window">
+            <field name="name">Modules</field>
+            <field name="res_model">application_server.module</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+        <record id="action_application_server_module_form_new" model="ir.actions.act_window">
+            <field name="name">New Module</field>
+            <field name="res_model">application_server.module</field>
+            <field name="view_mode">form</field>
+            <field name="view_mode">form,tree</field>
+        </record>
+
+        <!-- Module Type -->
+        <record id="view_application_server_module_type_form" model="ir.ui.view">
+            <field name="name">application_server.module.type.form</field>
+            <field name="model">application_server.module.type</field>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                <form string="Module Type">
+                    <sheet>
+                        <group>
+                            <field name="name"/>
+                            <field name="module_ids"/>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="view_application_server_module_type_tree" model="ir.ui.view">
+            <field name="name">application_server.module.type.tree</field>
+            <field name="model">application_server.module.type</field>
+            <field name="type">tree</field>
+            <field name="arch" type="xml">
+                <tree string="Module Types">
+                    <field name="name"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="action_application_server_module_type_form" model="ir.actions.act_window">
+            <field name="name">Module Types</field>
+            <field name="res_model">application_server.module.type</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+        <!-- Module Category -->
+        <record id="view_application_server_module_category_form" model="ir.ui.view">
+            <field name="name">application_server.module.category.form</field>
+            <field name="model">application_server.module.category</field>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                <form string="Module Category">
+                    <sheet>
+                        <group>
+                            <field name="name"/>
+                            <field name="parent_id"/>
+                            <field name="child_ids"/>
+                            <field name="module_ids"/>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="view_application_server_module_category_tree" model="ir.ui.view">
+            <field name="name">application_server.module.category.tree</field>
+            <field name="model">application_server.module.category</field>
+            <field name="type">tree</field>
+            <field name="arch" type="xml">
+                <tree string="Module Categories">
+                    <field name="name"/>
+                    <field name="parent_id"/>
+                    <field name="module_ids"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="action_application_server_module_category_form" model="ir.actions.act_window">
+            <field name="name">Module Categories</field>
+            <field name="res_model">application_server.module.category</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+        <record id="view_application_server_module_category_tree_parent" model="ir.ui.view">
+            <field name="name">application_server.module.category.tree parent</field>
+            <field name="model">application_server.module.category</field>
+            <field name="type">tree</field>
+            <field name="field_parent">child_ids</field>
+            <field name="arch" type="xml">
+                <tree string="Module Categories">
+                    <field name="name"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="action_application_server_module_category_tree" model="ir.actions.act_window">
+            <field name="name">Categories of Modules</field>
+            <field name="res_model">application_server.module.category</field>
+            <field name="view_mode">tree</field>
+            <field name="domain">[('parent_id','=',False)]</field>
+            <field name="view_id" ref="view_application_server_module_category_tree_parent"/>
+        </record>
+
+        <menuitem id="menu_application_server_modules" name="Modules"/>
+
+        <menuitem id="menu_action_application_server_module_form"
+                  action="action_application_server_module_form"
+                  parent="menu_application_server_modules"/>
+
+        <menuitem id="menu_action_application_server_module_form_new"
+                  action="action_application_server_module_form_new"
+                  parent="menu_action_application_server_module_form"/>
+
+        <menuitem id="menu_action_application_server_module_type_form"
+                  action="action_application_server_module_type_form"
+                  parent="menu_application_server_modules"/>
+
+        <menuitem id="menu_action_application_server_module_category_form"
+                  action="action_application_server_module_category_form"
+                  parent="menu_application_server_modules"/>
+
+        <menuitem id="menu_action_application_server_module_category_tree"
+                  action="action_application_server_module_category_tree"
+                  parent="menu_action_application_server_module_form"/>
+
+    </data>
+</odoo>
